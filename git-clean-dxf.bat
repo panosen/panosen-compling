@@ -1,0 +1,3 @@
+git clean -dxf
+
+pause

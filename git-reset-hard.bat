@@ -1,0 +1,3 @@
+git reset --hard
+
+pause

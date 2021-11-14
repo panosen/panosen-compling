@@ -1,0 +1,3 @@
+git pull -f
+
+pause
