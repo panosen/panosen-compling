@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Panosen.Compling.Rules\Panosen.Compling.Rules.csproj" />
+    <ProjectReference Include="..\Panosen.Compling.SLR1.Rules\Panosen.Compling.SLR1.Rules.csproj" />
+    <ProjectReference Include="..\Panosen.Compling.SLR1\Panosen.Compling.SLR1.csproj" />
+  </ItemGroup>
+
+</Project>
