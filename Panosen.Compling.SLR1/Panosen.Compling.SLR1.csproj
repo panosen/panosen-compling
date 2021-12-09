@@ -1,12 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFrameworks>net472;netstandard2.0</TargetFrameworks>
+        <AssemblyName>Panosen.Compling.SLR1</AssemblyName>
+        <RootNamespace>Panosen.Compling.SLR1</RootNamespace>
+        <Version>0.1.0</Version>
+        <Authors>harriszhang@live.cn</Authors>
+        <Company>harriszhang@live.cn</Company>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <DocumentationFile>bin\$(Configuration)\Panosen.Compling.SLR1.xml</DocumentationFile>
+        <PackageIcon>panosen.png</PackageIcon>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/panosen/panosen-compling</RepositoryUrl>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Panosen.Compling.Dfa\Panosen.Compling.Dfa.csproj" />
-    <ProjectReference Include="..\Panosen.Compling\Panosen.Compling.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Panosen.Compling\Panosen.Compling.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\panosen.png" Pack="true" PackagePath="" />
+    </ItemGroup>
 
 </Project>

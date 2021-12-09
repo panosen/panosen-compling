@@ -10,7 +10,7 @@ namespace Panosen.Compling.MSTest
         public void TestMethod()
         {
             Grammar grammar = new Grammar();
-            grammar.Rules = TestRules9.GetRules();
+            grammar.Rules = new SampleRule9().GetRules();
 
             var nonTerminals = grammar.NonTerminals;
             Assert.IsNotNull(nonTerminals);

@@ -15,7 +15,7 @@ namespace Panosen.Compling.LL1.MSTest
         public void TestMethod()
         {
             Grammar grammar = new Grammar();
-            grammar.Rules = TestRules9.GetRules();
+            grammar.Rules = new SampleRule9().GetRules();
 
             #region Select
 

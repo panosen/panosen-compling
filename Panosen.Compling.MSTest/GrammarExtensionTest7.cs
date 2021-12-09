@@ -11,7 +11,7 @@ namespace Panosen.Compling.MSTest
         {
 
             Grammar grammar = new Grammar();
-            grammar.Rules = TestRules7.GetRules();
+            grammar.Rules = new SampleRule7().GetRules();
 
             var nonTerminals = grammar.NonTerminals;
             Assert.IsNotNull(nonTerminals);

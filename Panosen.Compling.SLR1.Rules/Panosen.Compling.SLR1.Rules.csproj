@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Panosen.Compling.Rules\Panosen.Compling.Rules.csproj" />
     <ProjectReference Include="..\Panosen.Compling\Panosen.Compling.csproj" />
   </ItemGroup>
 
