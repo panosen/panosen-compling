@@ -16,7 +16,7 @@ namespace Panosen.Compling.LL1
         /// <param name="tokenList">输入串</param>
         /// <param name="Root">语法树根节点</param>
         /// <returns>若输入串能构成正确语法树，返回True，否则返回False</returns>
-        public static bool Analyse(List<Symbol> tokenList, out GrammarNode Root, out Symbol ErrorToken, Grammar grammar)
+        public static bool Analyse(TokenCollection tokenList, out GrammarNode Root, out Token ErrorToken, Grammar grammar)
         {
             var analysisTable = grammar.MakeAnalysisTable();
 
@@ -28,12 +28,12 @@ namespace Panosen.Compling.LL1
             //assume
             symbolStack.Push(start);
             Root = new GrammarNode(start);
-            ErrorToken = default(Symbol);
+            ErrorToken = default(Token);
             NodeStack.Push(Root);
 
             int index = 0;
 
-            while (symbolStack.Count != 0 || index < tokenList.Count)
+            while (symbolStack.Count != 0 || index < tokenList.Count())
             {
                 if (symbolStack.Count == 0)
                 {
@@ -45,10 +45,10 @@ namespace Panosen.Compling.LL1
                 //栈顶节点
                 var nodeStackTop = NodeStack.Peek();
                 //当前输入
-                Symbol inputSymbol = index < tokenList.Count ? tokenList[index] : Symbols.Dollar;
+                Token inputToken = index < tokenList.Count() ? tokenList[index] : null;
 
                 //当前元素等于栈顶元素
-                if (symbolStackTop.Equals(inputSymbol))
+                if (inputToken != null && symbolStackTop.Value.Equals(inputToken.Value))
                 {
                     symbolStack.Pop();
                     NodeStack.Pop();
@@ -58,13 +58,13 @@ namespace Panosen.Compling.LL1
                 //当前元素不等于栈顶元素X，但是栈顶元素X是非终结符
                 else if (symbolStackTop.Type == SymbolType.NonTerminal)
                 {
-                    var ll1Item = analysisTable.FirstOrDefault(v => v.Row.Equals(symbolStackTop) && v.Col.Equals(inputSymbol));
+                    var ll1Item = analysisTable.FirstOrDefault(v => v.Row.Equals(symbolStackTop) && inputToken != null && v.Col.Value.Equals(inputToken.Value));
 
                     //没有找到[symbolStackTop,inputSymbol]
                     if (ll1Item == null)
                     {
                         //当前输入是结束符，匹配成功
-                        if (inputSymbol.Equals(Symbols.Dollar))
+                        if (inputToken == null)
                         {
                             return true;
                         }
@@ -78,7 +78,7 @@ namespace Panosen.Compling.LL1
                         }
                         else
                         {
-                            ErrorToken = inputSymbol;
+                            ErrorToken = inputToken;
                             return false;
                         }
                     }
@@ -107,7 +107,7 @@ namespace Panosen.Compling.LL1
                 }
                 else
                 {
-                    ErrorToken = inputSymbol;
+                    ErrorToken = inputToken;
                     return false;
                 }
             }

@@ -20,13 +20,13 @@ namespace Panosen.Compling.LL1.MSTest
 
             Assert.IsTrue(grammar.IsLL1Grammar());
 
-            var tokenList = new List<Symbol>();
-            tokenList.Add(new Symbol { Type = SymbolType.Terminal, Value = "(" });
-            tokenList.Add(new Symbol { Type = SymbolType.Terminal, Value = "id" });
-            tokenList.Add(new Symbol { Type = SymbolType.Terminal, Value = ")" });
+            var tokenList = new TokenCollection();
+            tokenList.AddToken("(");
+            tokenList.AddToken("id");
+            tokenList.AddToken(")");
 
             GrammarNode root;
-            Symbol errorToken;
+            Token errorToken;
 
             var accept = LL1Analyser.Analyse(tokenList, out root, out errorToken, grammar);
 

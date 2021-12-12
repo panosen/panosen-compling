@@ -17,21 +17,21 @@ namespace Panosen.Compling.LL1.MSTest
         public void TestMethod()
         {
             Grammar grammar = new Grammar();
-            grammar.Rules =new SampleRule10().GetRules();
+            grammar.Rules = new SampleRule10().GetRules();
 
             Assert.IsTrue(grammar.IsLL1Grammar());
 
-            var tokenList = new List<Symbol>();
-            tokenList.Add(new Symbol { Type = SymbolType.Terminal, Value = "id" });
-            tokenList.Add(new Symbol { Type = SymbolType.Terminal, Value = "+" });
-            tokenList.Add(new Symbol { Type = SymbolType.Terminal, Value = "id" });
-            tokenList.Add(new Symbol { Type = SymbolType.Terminal, Value = "+" });
-            tokenList.Add(new Symbol { Type = SymbolType.Terminal, Value = "id" });
-            tokenList.Add(new Symbol { Type = SymbolType.Terminal, Value = "+" });
-            tokenList.Add(new Symbol { Type = SymbolType.Terminal, Value = "id" });
+            var tokenList = new TokenCollection();
+            tokenList.AddToken("id");
+            tokenList.AddToken("+");
+            tokenList.AddToken("id");
+            tokenList.AddToken("+");
+            tokenList.AddToken("id");
+            tokenList.AddToken("+");
+            tokenList.AddToken("id");
 
             GrammarNode root;
-            Symbol errorToken;
+            Token errorToken;
 
             var accept = LL1Analyser.Analyse(tokenList, out root, out errorToken, grammar);
 

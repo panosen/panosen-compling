@@ -8,7 +8,9 @@ using System.Runtime.InteropServices;
 
 namespace Panosen.Compling
 {
-
+    /// <summary>
+    /// 文法
+    /// </summary>
     public class Grammar
     {
         /// <summary>
