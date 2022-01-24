@@ -55,7 +55,7 @@ namespace Panosen.Compling
                 var current = stringBuilder.ToString();
                 var next = current + value;
 
-                if (symbols.Any(v => v.Value == next))
+                if (symbols.Any(v => v.Type == SymbolType.Terminal && v.Value == next))
                 {
                     tokenCollection.AddToken(next);
                     stringBuilder.Clear();
