@@ -4,34 +4,51 @@ using System.Text;
 
 namespace Panosen.Compling
 {
+    /// <summary>
+    /// 空格分析器
+    /// </summary>
     public class WhitespaceTokenizer : ITokenizer
     {
+        /// <summary>
+        /// 分析
+        /// </summary>
         public TokenCollection Analyze(string text)
         {
             TokenCollection tokenCollection = new TokenCollection();
 
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
 
-            var sourceReader = new SourceReader(text);
-            while (sourceReader.ViewOne() != null)
+            var row = 0;
+            var col = 0;
+
+            var reader = new SourceReader(text);
+            while (reader.ViewOne() != null)
             {
-                var value = sourceReader.Read().Value.ToString();
+                if (builder.Length == 0)
+                {
+                    row = reader.Row;
+                    col = reader.Col;
+                }
+
+                var value = reader.Read().Value.ToString();
                 if (!string.IsNullOrWhiteSpace(value))
                 {
-                    stringBuilder.Append(value);
+                    builder.Append(value);
                     continue;
                 }
 
-                if (stringBuilder.Length > 0)
+                if (builder.Length > 0)
                 {
-                    tokenCollection.AddToken(stringBuilder.ToString());
-                    stringBuilder.Clear();
+                    tokenCollection.AddToken(value: builder.ToString(), row: row, col: col);
+                    row = 0;
+                    col = 0;
+                    builder.Clear();
                 }
             }
 
-            if (stringBuilder.Length > 0)
+            if (builder.Length > 0)
             {
-                tokenCollection.AddToken(stringBuilder.ToString());
+                tokenCollection.AddToken(value: builder.ToString(), row: row, col: col);
             }
 
             return tokenCollection;

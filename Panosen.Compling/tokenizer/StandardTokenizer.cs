@@ -11,16 +11,21 @@ namespace Panosen.Compling
     /// </summary>
     public class StandardTokenizer : ITokenizer
     {
+        /// <summary>
+        /// 分析
+        /// </summary>
         public TokenCollection Analyze(string text)
         {
             TokenCollection tokens = new TokenCollection();
 
-            var sourceReader = new SourceReader(text);
-            while (sourceReader.ViewOne() != null)
+            var reader = new SourceReader(text);
+            while (reader.ViewOne() != null)
             {
-                var token = tokens.AddToken();
+                var row = reader.Row;
+                var col = reader.Col;
+                var value = reader.Read().Value.ToString();
 
-                token.Value = sourceReader.Read().Value.ToString();
+                tokens.AddToken(value: value, row: row, col: col);
             }
 
             return tokens;

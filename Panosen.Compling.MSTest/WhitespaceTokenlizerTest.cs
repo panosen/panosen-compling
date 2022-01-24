@@ -20,12 +20,43 @@ namespace Panosen.Compling.MSTest
             Assert.IsNotNull(tokenCollection.TokenList);
             Assert.AreEqual(6, tokenCollection.TokenList.Count);
 
-            Assert.AreEqual("zhang", tokenCollection.TokenList[0].Value);
-            Assert.AreEqual("san", tokenCollection.TokenList[1].Value);
-            Assert.AreEqual("de", tokenCollection.TokenList[2].Value);
-            Assert.AreEqual("hao", tokenCollection.TokenList[3].Value);
-            Assert.AreEqual("123.", tokenCollection.TokenList[4].Value);
-            Assert.AreEqual("ok", tokenCollection.TokenList[5].Value);
+            {
+                var token = tokenCollection.TokenList[0];
+                Assert.AreEqual("zhang", token.Value);
+                Assert.AreEqual(1, token.Row);
+                Assert.AreEqual(3, token.Col);
+            }
+            {
+                var token = tokenCollection.TokenList[1];
+                Assert.AreEqual("san", token.Value);
+                Assert.AreEqual(1, token.Row);
+                Assert.AreEqual(9, token.Col);
+            }
+            {
+                var token = tokenCollection.TokenList[2];
+                Assert.AreEqual("de", token.Value);
+                Assert.AreEqual(1, token.Row);
+                Assert.AreEqual(14, token.Col);
+            }
+            {
+                var token = tokenCollection.TokenList[3];
+                Assert.AreEqual("hao", token.Value);
+                Assert.AreEqual(1, token.Row);
+                Assert.AreEqual(17, token.Col);
+            }
+            {
+                var token = tokenCollection.TokenList[4];
+                Assert.AreEqual("123.", token.Value);
+                Assert.AreEqual(1, token.Row);
+                Assert.AreEqual(21, token.Col);
+            }
+            {
+                var token = tokenCollection.TokenList[5];
+                Assert.AreEqual("ok", token.Value);
+                Assert.AreEqual(1, token.Row);
+                Assert.AreEqual(26, token.Col);
+            }
+
         }
     }
 }
