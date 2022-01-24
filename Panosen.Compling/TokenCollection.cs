@@ -53,7 +53,7 @@ namespace Panosen.Compling
         /// <param name="tokenCollection"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Token AddToken(this TokenCollection tokenCollection, string value = null)
+        public static Token AddToken(this TokenCollection tokenCollection, string value = null, int row = 0, int col = 0)
         {
             if (tokenCollection.TokenList == null)
             {
@@ -62,6 +62,8 @@ namespace Panosen.Compling
 
             Token token = new Token();
             token.Value = value;
+            token.Row = row;
+            token.Col = col;
 
             tokenCollection.TokenList.Add(token);
 

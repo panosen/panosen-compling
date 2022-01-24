@@ -15,14 +15,20 @@ namespace Panosen.Compling.MSTest
         public void Test()
         {
             var reader = new SourceReader("zh\r\nangsan");
+            Assert.AreEqual(1, reader.Row);
+            Assert.AreEqual(1, reader.Col);
 
             var ch1 = reader.Read();
             Assert.AreEqual('z', ch1);
+            Assert.AreEqual(1, reader.Row);
+            Assert.AreEqual(2, reader.Col);
 
             for (int i = 0; i < 3; i++)
             {
                 var chtmp = reader.ViewOne();
                 Assert.AreEqual('h', chtmp);
+                Assert.AreEqual(1, reader.Row);
+                Assert.AreEqual(2, reader.Col);
             }
 
             var ch2 = reader.Read();
