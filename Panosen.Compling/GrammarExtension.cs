@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace Panosen.Compling
 {
+    /// <summary>
+    /// GrammarExtension
+    /// </summary>
     public static class GrammarExtension
     {
+        /// <summary>
+        /// AddProductionRule
+        /// </summary>
         public static ProductionRule AddProductionRule(this Grammar grammar)
         {
             if (grammar.Rules == null)

@@ -106,8 +106,6 @@ namespace Panosen.Compling
         /// <summary>
         /// 对目标规则集求闭包，直至集合不再增大
         /// </summary>
-        /// <param name="rules">目标规则集</param>
-        /// <returns></returns>
         private static List<ProductionRule> GetClosure(List<ProductionRule> pointRules, List<ProductionRule> rules)
         {
             List<ProductionRule> newRules = new List<ProductionRule>();

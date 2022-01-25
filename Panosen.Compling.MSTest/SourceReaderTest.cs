@@ -18,30 +18,54 @@ namespace Panosen.Compling.MSTest
             Assert.AreEqual(1, reader.Row);
             Assert.AreEqual(1, reader.Col);
 
-            var ch1 = reader.Read();
-            Assert.AreEqual('z', ch1);
-            Assert.AreEqual(1, reader.Row);
-            Assert.AreEqual(2, reader.Col);
+            {
+                Assert.AreEqual(1, reader.Row);
+                Assert.AreEqual(1, reader.Col);
+                Assert.AreEqual('z', reader.Read());
+            }
 
             for (int i = 0; i < 3; i++)
             {
-                var chtmp = reader.ViewOne();
-                Assert.AreEqual('h', chtmp);
                 Assert.AreEqual(1, reader.Row);
                 Assert.AreEqual(2, reader.Col);
+                Assert.AreEqual('h', reader.ViewOne());
             }
 
-            var ch2 = reader.Read();
-            Assert.AreEqual('h', ch2);
+            {
+                Assert.AreEqual(1, reader.Row);
+                Assert.AreEqual(2, reader.Col);
+                Assert.AreEqual('h', reader.Read());
+            }
 
-            var ch3 = reader.Read();
-            Assert.AreEqual('\r', ch3);
+            {
+                Assert.AreEqual(1, reader.Row);
+                Assert.AreEqual(3, reader.Col);
+                Assert.AreEqual('\r', reader.Read());
+            }
 
-            var ch4 = reader.Read();
-            Assert.AreEqual('\n', ch4);
+            {
+                Assert.AreEqual(1, reader.Row);
+                Assert.AreEqual(1, reader.Col);
+                Assert.AreEqual('\n', reader.Read());
+            }
 
-            var ch5 = reader.Read();
-            Assert.AreEqual('a', ch5);
+            {
+                Assert.AreEqual(2, reader.Row);
+                Assert.AreEqual(1, reader.Col);
+                Assert.AreEqual('a', reader.Read());
+            }
+
+            {
+                Assert.AreEqual(2, reader.Row);
+                Assert.AreEqual(2, reader.Col);
+                Assert.AreEqual('n', reader.Read());
+            }
+
+            {
+                Assert.AreEqual(2, reader.Row);
+                Assert.AreEqual(3, reader.Col);
+                Assert.AreEqual('g', reader.Read());
+            }
         }
     }
 }

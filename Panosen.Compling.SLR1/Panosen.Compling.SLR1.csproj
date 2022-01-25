@@ -4,7 +4,7 @@
         <TargetFrameworks>net472;netstandard2.0</TargetFrameworks>
         <AssemblyName>Panosen.Compling.SLR1</AssemblyName>
         <RootNamespace>Panosen.Compling.SLR1</RootNamespace>
-        <Version>0.2.1</Version>
+        <Version>0.2.2</Version>
         <Authors>harriszhang@live.cn</Authors>
         <Company>harriszhang@live.cn</Company>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

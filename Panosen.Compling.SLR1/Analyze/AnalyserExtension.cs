@@ -37,9 +37,6 @@ namespace Panosen.Compling
         /// <summary>
         /// 分析输入串是否符合文法
         /// </summary>
-        /// <param name="v">输入串</param>
-        /// <param name="output">输出数据表</param>
-        /// <returns>返回是否分析成功</returns>
         public static AnalyzeResult analyseInput(string inputString, DFA dfa, Dictionary<TheState, Dictionary<Symbol, TheTableCell>> analysisTable, Grammar grammar)
         {
             Queue<Symbol> inputQueue = StringToQueue(inputString, grammar);

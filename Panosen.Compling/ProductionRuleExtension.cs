@@ -4,6 +4,9 @@ namespace Panosen.Compling
 {
     public static class ProductionRuleExtension
     {
+        /// <summary>
+        /// AddLeft
+        /// </summary>
         public static ProductionRule AddLeft(this ProductionRule productionRule, string value)
         {
             Symbol symbol = new Symbol();
@@ -15,6 +18,9 @@ namespace Panosen.Compling
             return productionRule;
         }
 
+        /// <summary>
+        /// AddLeft
+        /// </summary>
         public static ProductionRule AddLeft(this ProductionRule productionRule, Symbol symbol)
         {
             productionRule.Left = symbol;
@@ -22,6 +28,9 @@ namespace Panosen.Compling
             return productionRule;
         }
 
+        /// <summary>
+        /// AddRight
+        /// </summary>
         public static ProductionRule AddRight(this ProductionRule productionRule, Symbol symbol)
         {
             if (productionRule.Right == null)
@@ -34,6 +43,9 @@ namespace Panosen.Compling
             return productionRule;
         }
 
+        /// <summary>
+        /// AddRight
+        /// </summary>
         public static ProductionRule AddRight(this ProductionRule productionRule, SymbolType symbolType, string value)
         {
             Symbol symbol = new Symbol();
@@ -43,6 +55,9 @@ namespace Panosen.Compling
             return AddRight(productionRule, symbol);
         }
 
+        /// <summary>
+        /// AddRightOfTerminal
+        /// </summary>
         public static ProductionRule AddRightOfTerminal(this ProductionRule productionRule, string value)
         {
             Symbol symbol = new Symbol();
@@ -52,6 +67,9 @@ namespace Panosen.Compling
             return AddRight(productionRule, symbol);
         }
 
+        /// <summary>
+        /// AddRightOfNonTerminal
+        /// </summary>
         public static ProductionRule AddRightOfNonTerminal(this ProductionRule productionRule, string value)
         {
             Symbol symbol = new Symbol();
@@ -61,6 +79,9 @@ namespace Panosen.Compling
             return AddRight(productionRule, symbol);
         }
 
+        /// <summary>
+        /// EqualsTo
+        /// </summary>
         public static bool EqualsTo(this ProductionRule rule, ProductionRule other)
         {
             if (!rule.Left.Equals(other.Left))
