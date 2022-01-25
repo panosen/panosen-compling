@@ -11,16 +11,27 @@ namespace Panosen.Compling
     /// </summary>
     public sealed class TokenType : IEquatable<TokenType>
     {
+        /// <summary>
+        /// Name
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// TokenType
+        /// </summary>
         public static implicit operator TokenType(string name)
         {
             return new TokenType { Name = name };
         }
 
+        /// <summary>
+        /// Equals
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(TokenType other)
         {
-            if (other == null)
+            if (ReferenceEquals(other, null))
             {
                 return false;
             }
@@ -33,6 +44,12 @@ namespace Panosen.Compling
             return string.Compare(Name, other.Name, true) == 0;
         }
 
+        /// <summary>
+        /// ==
+        /// </summary>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
         public static bool operator ==(TokenType first, TokenType second)
         {
             if (ReferenceEquals(first, second))
@@ -48,6 +65,12 @@ namespace Panosen.Compling
             return first.Equals(second);
         }
 
+        /// <summary>
+        /// !=
+        /// </summary>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
         public static bool operator !=(TokenType first, TokenType second)
         {
             if (ReferenceEquals(first, second))
@@ -63,6 +86,11 @@ namespace Panosen.Compling
             return !second.Equals(first);
         }
 
+        /// <summary>
+        /// Equals
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (obj is TokenType)
@@ -73,6 +101,10 @@ namespace Panosen.Compling
             return false;
         }
 
+        /// <summary>
+        /// GetHashCode
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             if (this.Name == null)
