@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 namespace Panosen.Compling.MSTest
 {
     [TestClass]
-    public class GrammarTokenizerTest
+    public class GrammarTokenizer5Test
     {
         [TestMethod]
         public void TestMethod()
         {
-            var rules = new SampleRule11().GetRules();
+            var rules = new SampleRule5().GetRules();
 
             //p { color : red ; }
             var source = new SampleRule5().GetSamples();
