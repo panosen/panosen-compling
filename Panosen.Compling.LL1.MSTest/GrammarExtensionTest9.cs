@@ -17,7 +17,7 @@ namespace Panosen.Compling.LL1.MSTest
         public void TestMethod()
         {
             Grammar grammar = new Grammar();
-            grammar.Rules = new SampleRule9().GetRules();
+            grammar.Rules = new ProductionRuleCollection(new SampleRule9().GetRules()).ProductionRules;
 
             NewMethod(grammar);
 

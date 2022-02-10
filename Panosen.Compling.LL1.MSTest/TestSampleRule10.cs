@@ -17,7 +17,7 @@ namespace Panosen.Compling.LL1.MSTest
         public void TestMethod()
         {
             Grammar grammar = new Grammar();
-            grammar.Rules = new SampleRule10().GetRules();
+            grammar.Rules = new ProductionRuleCollection(new SampleRule10().GetRules()).ProductionRules;
 
             Assert.IsTrue(grammar.IsLL1Grammar());
 

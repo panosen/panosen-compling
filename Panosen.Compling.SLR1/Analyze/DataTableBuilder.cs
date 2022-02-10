@@ -7,18 +7,24 @@ using System.Threading.Tasks;
 
 namespace Panosen.Compling
 {
+    /// <summary>
+    /// DataTableBuilder
+    /// </summary>
     public static class DataTableBuilder
     {
+        /// <summary>
+        /// BuildDataTable
+        /// </summary>
         public static DataTable BuildDataTable(Grammar grammar, Dictionary<TheState, Dictionary<Symbol, TheTableCell>> analysisTable)
         {
             var dict = new Dictionary<TheState, Dictionary<Symbol, TheTableCell>>(analysisTable);
 
-            List<Symbol> symbols = new List<Symbol>(grammar.Symbols.ToArray());
+            List<Symbol> symbols = GrammarHelper.GetSymbols(grammar);
 
-            List<Symbol> v_symbols = new List<Symbol>(grammar.Terminals.ToArray());
+            List<Symbol> v_symbols = grammar.Rules.SelectMany(v => v.Right).Where(v => v.Type == SymbolType.Terminal).Distinct().ToList();
             v_symbols.Add(Symbols.Dollar);
 
-            List<Symbol> n_symbols = new List<Symbol>(grammar.NonTerminals.ToArray());
+            List<Symbol> n_symbols = GetNonTerminals(grammar);
 
             DataTable table = new DataTable();
             DataColumn column1 = new DataColumn();
@@ -77,6 +83,14 @@ namespace Panosen.Compling
             }
 
             return table;
+        }
+
+        private static List<Symbol> GetNonTerminals(Grammar grammar)
+        {
+            List<Symbol> temp = new List<Symbol>();
+            temp.AddRange(grammar.Rules.Select(v => v.Left));
+            temp.AddRange(grammar.Rules.SelectMany(v => v.Right).Where(v => v.Type == SymbolType.NonTerminal));
+            return temp.Distinct().ToList();
         }
     }
 }

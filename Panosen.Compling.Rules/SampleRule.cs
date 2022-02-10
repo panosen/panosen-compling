@@ -15,32 +15,15 @@ namespace Panosen.Compling.Rules
         protected static ProductionRule ToRule(params string[] items)
         {
             ProductionRule theRule = new ProductionRule();
-            theRule.Left = new Symbol { Value = items[0], Type = GetSymbolType(items[0]) };
+            theRule.Left = new Symbol { Value = items[0]};
 
             theRule.Right = new List<Symbol>();
             for (int i = 1; i < items.Length; i++)
             {
-                theRule.Right.Add(new Symbol { Value = items[i], Type = GetSymbolType(items[i]) });
+                theRule.Right.Add(new Symbol { Value = items[i]});
             }
 
             return theRule;
-        }
-
-        protected static SymbolType GetSymbolType(string item)
-        {
-            if (item == "[Null]")
-            {
-                return SymbolType.Epsilon;
-            }
-            foreach (var ch in item)
-            {
-                if (ch < 'A' || ch > 'Z')
-                {
-                    return SymbolType.Terminal;
-                }
-            }
-
-            return SymbolType.NonTerminal;
         }
     }
 }

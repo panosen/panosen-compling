@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Panosen.Compling.SLR1
 {
+    /// <summary>
+    /// AnalysisTableBuilder
+    /// </summary>
     public static class AnalysisTableBuilder
     {
         /// <summary>
@@ -17,16 +20,18 @@ namespace Panosen.Compling.SLR1
         {
             Dictionary<TheState, Dictionary<Symbol, TheTableCell>> analysisTable = new Dictionary<TheState, Dictionary<Symbol, TheTableCell>>();
 
+            var followSetMap = FollowSetMapBuilder.BuildFollowSetMap(grammar);
+
             // 先处理无转移状态的情况
             foreach (var dfaState in dfa.States)
             {
-                ProcessState(dfa, grammar, analysisTable, dfaState);
+                ProcessState(dfa, grammar, analysisTable, dfaState, followSetMap);
             }
 
             // 遍历转移表
             foreach (var dfaMove in dfa.Moves)
             {
-                ProcessMove(dfa, grammar, dfa.States, analysisTable, dfaMove);
+                ProcessMove(dfa, grammar, dfa.States, analysisTable, dfaMove, followSetMap);
             }
 
             // (I1, $) 在分析表上对应ACCEPT
@@ -35,10 +40,10 @@ namespace Panosen.Compling.SLR1
             return analysisTable;
         }
 
-        private static void ProcessState(DFA dfa, Grammar grammar, Dictionary<TheState, Dictionary<Symbol, TheTableCell>> analysisTable, TheState dfaState)
+        private static void ProcessState(DFA dfa, Grammar grammar, Dictionary<TheState, Dictionary<Symbol, TheTableCell>> analysisTable, TheState dfaState, SymbolHashSetMap followSetMap)
         {
             // 初始化 analysisTable
-            List<Symbol> symbols = grammar.Symbols.Where(v => !v.Equals(Symbols.Epsilon)).ToList();
+            List<Symbol> symbols = GrammarHelper.GetSymbols(grammar).Where(v => !v.Equals(Symbols.Epsilon)).ToList();
 
             analysisTable.Add(dfaState, new Dictionary<Symbol, TheTableCell>());
             foreach (var symbol in symbols)
@@ -65,7 +70,7 @@ namespace Panosen.Compling.SLR1
                     }
                     // 找到这条产生式的编号
                     var index = grammar.Rules.FindIndex(r => r.EqualsTo(_rule));
-                    var followSet = grammar.GetFollowSet(rule.Left); // 求出这条产生式左部的FOLLOW集
+                    var followSet = followSetMap.GetHashSet(rule.Left); // 求出这条产生式左部的FOLLOW集
                     foreach (var follow in followSet) // 在相应位置上标记为规约
                     {
                         analysisTable[dfaState][follow].Type = TheTableCell.Types.REDUCE;
@@ -75,7 +80,7 @@ namespace Panosen.Compling.SLR1
             }
         }
 
-        private static void ProcessMove(DFA dfa, Grammar grammar, List<TheState> dfaStates, Dictionary<TheState, Dictionary<Symbol, TheTableCell>> analysisTable, Move dfaMove)
+        private static void ProcessMove(DFA dfa, Grammar grammar, List<TheState> dfaStates, Dictionary<TheState, Dictionary<Symbol, TheTableCell>> analysisTable, Move dfaMove, SymbolHashSetMap followSetMap)
         {
             switch (dfaMove.By.Type)
             {
@@ -98,7 +103,7 @@ namespace Panosen.Compling.SLR1
                             _rule.Right.Add(Symbols.Epsilon);
                         }
                         var index = grammar.Rules.FindIndex(t => t.EqualsTo(_rule));
-                        HashSet<Symbol> followSet = grammar.GetFollowSet(rule.Left);
+                        HashSet<Symbol> followSet = followSetMap.GetHashSet(rule.Left);
                         foreach (var follow in followSet)
                         {
                             if (analysisTable[dfaMove.From][follow].Type != TheTableCell.Types.NULL) // 产生冲突

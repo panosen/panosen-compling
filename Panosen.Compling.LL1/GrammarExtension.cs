@@ -69,8 +69,8 @@ namespace Panosen.Compling.LL1
         {
             HashSet<Symbol> selectSet = new HashSet<Symbol>();
 
-            var firstSetMap = grammar.BuildFirstSetMap();
-            var followSetMap = grammar.BuildFollowSetMap();
+            var firstSetMap = FirstSetMapBuilder.BuildFirstSetMap(grammar);
+            var followSetMap = FollowSetMapBuilder.BuildFollowSetMap(grammar);
 
             // 遍历这个产生式中的每一项
             for (int index = 0; index < productionRule.Right.Count; index++)
@@ -80,7 +80,7 @@ namespace Panosen.Compling.LL1
                 //Epsilon
                 if (currentSymbol.Type == SymbolType.Epsilon)
                 {
-                    AddTo(selectSet, GetSet(followSetMap, productionRule.Left));
+                    AddTo(selectSet, followSetMap.GetHashSet(productionRule.Left));
                     break;
                 }
 
@@ -94,7 +94,7 @@ namespace Panosen.Compling.LL1
                 //非终结符
                 if (currentSymbol.Type == SymbolType.NonTerminal)
                 {
-                    var currentSymbolFirstSet = GetSet(firstSetMap, currentSymbol);
+                    var currentSymbolFirstSet = firstSetMap.GetHashSet(currentSymbol);
                     if (currentSymbolFirstSet.Any(v => v.Type == SymbolType.Epsilon))
                     {
                         if (index == productionRule.Right.Count - 1)
@@ -139,12 +139,15 @@ namespace Panosen.Compling.LL1
         {
             Matrix<Symbol, Symbol, ProductionRule> ll1Table = new Matrix<Symbol, Symbol, ProductionRule>();
 
+            var firstSetMap = FirstSetMapBuilder.BuildFirstSetMap(grammar);
+            var followSetMap = FollowSetMapBuilder.BuildFollowSetMap(grammar);
+
             foreach (var rule in grammar.Rules)
             {
                 //规则包含ε,即 A -> ε
                 if (rule.Right.Contains(Symbols.Epsilon))
                 {
-                    foreach (var follow in grammar.GetFollowSet(rule.Left))
+                    foreach (var follow in followSetMap.GetHashSet(rule.Left))
                     {
                         ll1Table.Add(rule.Left, follow, rule);
                     }
@@ -153,7 +156,7 @@ namespace Panosen.Compling.LL1
                 // A -> bC
                 else if (rule.Right[0].Type == SymbolType.NonTerminal)
                 {
-                    foreach (var first in grammar.GetFirstSet(rule.Right[0]))
+                    foreach (var first in firstSetMap.GetHashSet(rule.Right[0]))
                     {
                         if (first.Equals(Symbols.Epsilon))
                         {
@@ -161,9 +164,9 @@ namespace Panosen.Compling.LL1
                         }
                         ll1Table.Add(rule.Left, first, rule);
                     }
-                    if (grammar.GetFirstSet(rule.Right[0]).Contains(Symbols.Epsilon))
+                    if (firstSetMap.GetHashSet(rule.Right[0]).Contains(Symbols.Epsilon))
                     {
-                        foreach (var follow in grammar.GetFollowSet(rule.Left))
+                        foreach (var follow in followSetMap.GetHashSet(rule.Left))
                         {
                             ll1Table.Add(rule.Left, follow, rule);
                         }
@@ -178,6 +181,16 @@ namespace Panosen.Compling.LL1
             }
 
             return ll1Table;
+        }
+
+        private static HashSet<Symbol> GetFirstSet(Dictionary<Symbol, HashSet<Symbol>> firstSetMap, Symbol symbol)
+        {
+            if (firstSetMap.ContainsKey(symbol))
+            {
+                return firstSetMap[symbol];
+            }
+
+            return new HashSet<Symbol>();
         }
     }
 }

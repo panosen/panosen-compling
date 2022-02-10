@@ -19,7 +19,7 @@ namespace Panosen.Compling.MSTest
             //p { color : red ; }
             var source = new SampleRule5().GetSamples();
 
-            var tokenCollection = new GrammarTokenizer(rules).Analyze(source);
+            var tokenCollection = new GrammarTokenizer(new ProductionRuleCollection(rules)).Analyze(source);
 
             Assert.IsNotNull(tokenCollection);
             Assert.AreEqual(7, tokenCollection.Count());

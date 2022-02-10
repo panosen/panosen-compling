@@ -11,13 +11,12 @@ namespace Panosen.Compling
     /// </summary>
     public class GrammarTokenizer : ITokenizer
     {
-        private List<ProductionRule> productionRules;
+        private ProductionRuleCollection productionRules;
 
         /// <summary>
         /// 基于语法的词法分析
         /// </summary>
-        /// <param name="productionRules"></param>
-        public GrammarTokenizer(List<ProductionRule> productionRules)
+        public GrammarTokenizer(ProductionRuleCollection productionRules)
         {
             this.productionRules = productionRules;
         }
@@ -31,7 +30,7 @@ namespace Panosen.Compling
         {
             TokenCollection tokenCollection = new TokenCollection();
 
-            var symbols = productionRules.SelectMany(v => v.Right).Where(v => v.Type == SymbolType.Terminal).Distinct().ToList();
+            var symbols = productionRules.ProductionRules.SelectMany(v => v.Right).Where(v => v.Type == SymbolType.Terminal).Distinct().ToList();
 
             var symbolChars = symbols.SelectMany(v => v.Value).Distinct().ToList();
 

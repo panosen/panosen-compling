@@ -20,7 +20,7 @@ namespace Panosen.Compling
             Queue<Symbol> qInput = new Queue<Symbol>();
             foreach (string s in sInput.Trim().Split(' '))
             {
-                var symbol = grammar.Symbols.FirstOrDefault(v => v.Value == s);
+                var symbol = GrammarHelper.GetSymbols(grammar).FirstOrDefault(v => v.Value == s);
                 if (!symbol.Equals(default(Symbol)))
                 {
                     qInput.Enqueue(symbol);

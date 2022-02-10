@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Panosen.Compling.Rules;
+using System.Collections.Generic;
 
 namespace Panosen.Compling.MSTest
 {
@@ -11,22 +12,15 @@ namespace Panosen.Compling.MSTest
         {
 
             Grammar grammar = new Grammar();
-            grammar.Rules = new SampleRule7().GetRules();
-
-            var nonTerminals = grammar.NonTerminals;
-            Assert.IsNotNull(nonTerminals);
-            Assert.AreEqual(5, nonTerminals.Count);
-            Assert.IsTrue(nonTerminals.Contains(new Symbol { Type = SymbolType.NonTerminal, Value = "E" }));
-            Assert.IsTrue(nonTerminals.Contains(new Symbol { Type = SymbolType.NonTerminal, Value = "M" }));
-            Assert.IsTrue(nonTerminals.Contains(new Symbol { Type = SymbolType.NonTerminal, Value = "T" }));
-            Assert.IsTrue(nonTerminals.Contains(new Symbol { Type = SymbolType.NonTerminal, Value = "N" }));
-            Assert.IsTrue(nonTerminals.Contains(new Symbol { Type = SymbolType.NonTerminal, Value = "F" }));
+            grammar.Rules = new ProductionRuleCollection(new SampleRule7().GetRules()).ProductionRules;
 
             #region First
 
+            var firstSetMap = FirstSetMapBuilder.BuildFirstSetMap(grammar);
+
             //FIRST(E) = {'(',id}
             {
-                var firstSet = grammar.GetFirstSet(new Symbol { Type = SymbolType.NonTerminal, Value = "E" });
+                var firstSet = firstSetMap.GetHashSet(new Symbol { Type = SymbolType.NonTerminal, Value = "E" });
                 Assert.IsNotNull(firstSet);
                 Assert.AreEqual(2, firstSet.Count);
                 Assert.IsTrue(firstSet.Contains(new Symbol { Type = SymbolType.Terminal, Value = "(" }));
@@ -34,7 +28,7 @@ namespace Panosen.Compling.MSTest
             }
             //FIRST(M) = {+,¦Å}
             {
-                var firstSet = grammar.GetFirstSet(new Symbol { Type = SymbolType.NonTerminal, Value = "M" });
+                var firstSet = firstSetMap.GetHashSet(new Symbol { Type = SymbolType.NonTerminal, Value = "M" });
                 Assert.IsNotNull(firstSet);
                 Assert.AreEqual(2, firstSet.Count);
                 Assert.IsTrue(firstSet.Contains(new Symbol { Type = SymbolType.Terminal, Value = "+" }));
@@ -42,7 +36,7 @@ namespace Panosen.Compling.MSTest
             }
             //FIRST(T) = {'(',id}
             {
-                var firstSet = grammar.GetFirstSet(new Symbol { Type = SymbolType.NonTerminal, Value = "T" });
+                var firstSet = firstSetMap.GetHashSet(new Symbol { Type = SymbolType.NonTerminal, Value = "T" });
                 Assert.IsNotNull(firstSet);
                 Assert.AreEqual(2, firstSet.Count);
                 Assert.IsTrue(firstSet.Contains(new Symbol { Type = SymbolType.Terminal, Value = "(" }));
@@ -50,7 +44,7 @@ namespace Panosen.Compling.MSTest
             }
             //FIRST(N) = {*,¦Å}
             {
-                var firstSet = grammar.GetFirstSet(new Symbol { Type = SymbolType.NonTerminal, Value = "N" });
+                var firstSet = firstSetMap.GetHashSet(new Symbol { Type = SymbolType.NonTerminal, Value = "N" });
                 Assert.IsNotNull(firstSet);
                 Assert.AreEqual(2, firstSet.Count);
                 Assert.IsTrue(firstSet.Contains(new Symbol { Type = SymbolType.Terminal, Value = "*" }));
@@ -58,7 +52,7 @@ namespace Panosen.Compling.MSTest
             }
             //FIRST(F) = {'(',id}
             {
-                var firstSet = grammar.GetFirstSet(new Symbol { Type = SymbolType.NonTerminal, Value = "F" });
+                var firstSet = firstSetMap.GetHashSet(new Symbol { Type = SymbolType.NonTerminal, Value = "F" });
                 Assert.IsNotNull(firstSet);
                 Assert.AreEqual(2, firstSet.Count);
                 Assert.IsTrue(firstSet.Contains(new Symbol { Type = SymbolType.Terminal, Value = "(" }));
@@ -69,9 +63,11 @@ namespace Panosen.Compling.MSTest
 
             #region Follow
 
+            var followSetMap = FollowSetMapBuilder.BuildFollowSetMap(grammar);
+
             //FOLLOW(E) = {$,)}
             {
-                var followSet = grammar.GetFollowSet(new Symbol { Type = SymbolType.NonTerminal, Value = "E" });
+                var followSet = followSetMap.GetHashSet(new Symbol { Type = SymbolType.NonTerminal, Value = "E" });
                 Assert.IsNotNull(followSet);
                 Assert.AreEqual(2, followSet.Count);
                 Assert.IsTrue(followSet.Contains(Symbols.Dollar));
@@ -79,7 +75,7 @@ namespace Panosen.Compling.MSTest
             }
             //FOLLOW(M) = {$,)}
             {
-                var followSet = grammar.GetFollowSet(new Symbol { Type = SymbolType.NonTerminal, Value = "M" });
+                var followSet = followSetMap.GetHashSet(new Symbol { Type = SymbolType.NonTerminal, Value = "M" });
                 Assert.IsNotNull(followSet);
                 Assert.AreEqual(2, followSet.Count);
                 Assert.IsTrue(followSet.Contains(Symbols.Dollar));
@@ -87,7 +83,7 @@ namespace Panosen.Compling.MSTest
             }
             //FOLLOW(T) = {+,$,)}
             {
-                var followSet = grammar.GetFollowSet(new Symbol { Type = SymbolType.NonTerminal, Value = "T" });
+                var followSet = followSetMap.GetHashSet(new Symbol { Type = SymbolType.NonTerminal, Value = "T" });
                 Assert.IsNotNull(followSet);
                 Assert.AreEqual(3, followSet.Count);
                 Assert.IsTrue(followSet.Contains(Symbols.Dollar));
@@ -96,7 +92,7 @@ namespace Panosen.Compling.MSTest
             }
             //FOLLOW(N) = {+,$,)}
             {
-                var followSet = grammar.GetFollowSet(new Symbol { Type = SymbolType.NonTerminal, Value = "N" });
+                var followSet = followSetMap.GetHashSet(new Symbol { Type = SymbolType.NonTerminal, Value = "N" });
                 Assert.IsNotNull(followSet);
                 Assert.AreEqual(3, followSet.Count);
                 Assert.IsTrue(followSet.Contains(Symbols.Dollar));
@@ -105,7 +101,7 @@ namespace Panosen.Compling.MSTest
             }
             //FOLLOW(F) = {*,+,$,)}
             {
-                var followSet = grammar.GetFollowSet(new Symbol { Type = SymbolType.NonTerminal, Value = "F" });
+                var followSet = followSetMap.GetHashSet(new Symbol { Type = SymbolType.NonTerminal, Value = "F" });
                 Assert.IsNotNull(followSet);
                 Assert.AreEqual(4, followSet.Count);
                 Assert.IsTrue(followSet.Contains(Symbols.Dollar));
