@@ -14,23 +14,28 @@ namespace Panosen.Compling.Rules
         {
             List<ProductionRule> rules = new List<ProductionRule>();
             rules.Add(ToRule("STYLES", "STYLE"));
-            rules.Add(ToRule("STYLE", "ID", "{", "LINE", "}"));
-            rules.Add(ToRule("LINE", "KEY", ":", "VALUE", ";"));
-            rules.Add(ToRule("ID", "p"));
-            rules.Add(ToRule("ID", "span"));
-            rules.Add(ToRule("ID", "body"));
-            rules.Add(ToRule("KEY", "color"));
-            rules.Add(ToRule("KEY", "width"));
-            rules.Add(ToRule("KEY", "size"));
-            rules.Add(ToRule("VALUE", "15px"));
-            rules.Add(ToRule("VALUE", "red"));
+            rules.Add(ToRule("STYLE", "ID", "WHITESPACES", "{", "WHITESPACES", "LINE", "WHITESPACES", "}"));
+            rules.Add(ToRule("LINE", "KEY", "WHITESPACES", ":", "WHITESPACES", "VALUE", ";"));
 
-            rules.Add(ToRule("IDENTIFIER", "LETTER", "IDENTIFIER_RIGHT"));
-            rules.Add(ToRule("IDENTIFIER_RIGHT", "LETTER", "IDENTIFIER_RIGHT"));
-            rules.Add(ToRule("IDENTIFIER_RIGHT", "[Null]"));
+            rules.Add(ToRule("ID", "LETTER", "ID_RIGHT"));
+            rules.Add(ToRule("ID_RIGHT", "LETTER", "ID_RIGHT"));
+            rules.Add(ToRule("ID_RIGHT", "[Null]"));
 
-            rules.Add(ToRule("LETTER_OR_NUMBER", "LETTER"));
-            rules.Add(ToRule("LETTER_OR_NUMBER", "NUMBER"));
+            rules.Add(ToRule("KEY", "LETTER", "KEY_RIGHT"));
+            rules.Add(ToRule("KEY_RIGHT", "LETTER", "KEY_RIGHT"));
+            rules.Add(ToRule("KEY_RIGHT", "[Null]"));
+
+            rules.Add(ToRule("VALUE", "LETTER", "VALUE_RIGHT"));
+            rules.Add(ToRule("VALUE_RIGHT", "LETTER", "VALUE_RIGHT"));
+            rules.Add(ToRule("VALUE_RIGHT", "[Null]"));
+
+            rules.Add(ToRule("WHITESPACES", "[Null]"));
+            rules.Add(ToRule("WHITESPACES", "WHITESPACE", "WHITESPACES_RIGHT"));
+            rules.Add(ToRule("WHITESPACES_RIGHT", "WHITESPACE", "WHITESPACES_RIGHT"));
+            rules.Add(ToRule("WHITESPACES_RIGHT", "[Null]"));
+
+            rules.Add(ToRule("WHITESPACE", " "));
+            rules.Add(ToRule("WHITESPACE", "\t"));
 
             //字母
             for (int index = 'a'; index <= 'z'; index++)
