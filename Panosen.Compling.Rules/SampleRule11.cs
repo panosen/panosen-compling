@@ -7,23 +7,32 @@ namespace Panosen.Compling.Rules
     {
         public override string GetSamples()
         {
-            return "p { color : red ; }";
+            return "select name, age from book;";
         }
 
         public override List<ProductionRule> GetRules()
         {
             List<ProductionRule> rules = new List<ProductionRule>();
-            rules.Add(ToRule("STYLES", "STYLE"));
-            rules.Add(ToRule("STYLE", "ID", "{", "LINE", "}"));
-            rules.Add(ToRule("LINE", "KEY", ":", "VALUE", ";"));
-            rules.Add(ToRule("ID", "p"));
-            rules.Add(ToRule("ID", "span"));
-            rules.Add(ToRule("ID", "body"));
-            rules.Add(ToRule("KEY", "color"));
-            rules.Add(ToRule("KEY", "width"));
-            rules.Add(ToRule("KEY", "size"));
-            rules.Add(ToRule("VALUE", "15px"));
-            rules.Add(ToRule("VALUE", "red"));
+            rules.Add(ToRule("SELECT_STATEMENT", "SELECT_PART", "FROM_PART", "END"));
+
+            rules.Add(ToRule("SELECT_PART", "select", "COLUMNS"));
+
+            rules.Add(ToRule("COLUMNS", "COLUNS", "COLUMNS_RIGHT"));
+            rules.Add(ToRule("COLUMNS_RIGHT", ",", "COLUNS", "COLUMNS_RIGHT"));
+
+            rules.Add(ToRule("COLUMNS", "name"));
+            rules.Add(ToRule("COLUMN", "age"));
+
+            rules.Add(ToRule("FROM_PART", "from", "TABLE_NAME"));
+
+            rules.Add(ToRule("END", ";"));
+            rules.Add(ToRule("END", "[Null]"));
+
+            //字母
+            for (int index = 'a'; index <= 'z'; index++)
+            {
+                rules.Add(ToRule("LETTER", ((char)index).ToString()));
+            }
 
             return rules;
         }
