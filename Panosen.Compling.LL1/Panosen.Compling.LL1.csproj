@@ -15,7 +15,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Panosen.Collections" Version="0.6.2" />
+        <PackageReference Include="Panosen.Collections" Version="0.6.3" />
     </ItemGroup>
 
     <ItemGroup>
