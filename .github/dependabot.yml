@@ -9,3 +9,9 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+    ignore:
+      - dependency-name: "coverlet.collector"
+      - dependency-name: "Microsoft.NET.Test.Sdk"
+      - dependency-name: "MSTest.TestAdapter"
+      - dependency-name: "MSTest.TestFramework"
+      - dependency-name: "Microsoft.CodeAnalysis.NetAnalyzers"
